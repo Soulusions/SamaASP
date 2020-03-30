@@ -30,6 +30,12 @@ namespace SamaASP.Modules
                 await ReplyAsync( $"{user.Username}#{user.Discriminator}" );
             }
         }
+
+        [Command("test")]
+        public async Task Test()
+        {
+            await ReplyAsync( "Auto Updates ftw" );
+        }
     }
 
     public class GuildInfoModule : ModuleBase<SocketCommandContext>
