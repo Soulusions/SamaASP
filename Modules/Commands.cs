@@ -16,25 +16,19 @@ namespace SamaASP.Modules
         [Command( "info" )]
         public Task Info()
             => ReplyAsync(
-                $"{Context.Client.CurrentUser.Username} Made in your mom's basement in C#\n" );
+                $"{Context.Client.CurrentUser.Username}.ASP.NET v1.0.1\n" );
 
         [Command( "whois" )]
         public async Task Whois( SocketUser user = null )
         {
             if ( user == null )
             {
-                await ReplyAsync( $"<@{Context.Message.Author.Id}> Please specify the user to get the info from..." );
+                await ReplyAsync( $"{Context.Message.Author.Mention} Veuillez spécifier l'utilisateur à inspecter..." );
             }
             else
             {
                 await ReplyAsync( $"{user.Username}#{user.Discriminator}" );
             }
-        }
-
-        [Command("test")]
-        public async Task Test()
-        {
-            await ReplyAsync( "Auto Updates ftw" );
         }
     }
 

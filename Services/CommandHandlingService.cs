@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -13,6 +14,7 @@ namespace SamaASP.Services
         private readonly DiscordSocketClient _discord;
         private readonly CommandService _commands;
         private IServiceProvider _provider;
+        private IConfiguration _config;
 
         public CommandHandlingService( IServiceProvider provider, DiscordSocketClient discord, CommandService commands )
         {
@@ -25,9 +27,10 @@ namespace SamaASP.Services
             _discord.GuildMemberUpdated += GuildMemberUpdated;
         }
 
-        public async Task InitializeAsync( IServiceProvider provider )
+        public async Task InitializeAsync( IServiceProvider provider, IConfiguration config )
         {
             _provider = provider;
+            _config = config;
             await _commands.AddModulesAsync( Assembly.GetEntryAssembly(), _provider );
             // Add additional initialization code here...
         }
