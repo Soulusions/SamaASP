@@ -23,11 +23,24 @@ namespace SamaASP.Modules
         {
             if ( user == null )
             {
-                await ReplyAsync( $"{Context.Message.Author.Mention} Veuillez spécifier l'utilisateur à inspecter..." );
+                await ReplyAsync( $"{Context.User.Username}#{Context.User.Discriminator}" );
             }
             else
             {
                 await ReplyAsync( $"{user.Username}#{user.Discriminator}" );
+            }
+        }
+
+        [Command( "pfp" )]
+        public async Task GetPFP( SocketUser user = null )
+        {
+            if ( user == null )
+            {
+                await ReplyAsync( $"{Context.User.GetAvatarUrl()}" );
+            }
+            else
+            {
+                await ReplyAsync( $"{user.GetAvatarUrl()}" );
             }
         }
     }
