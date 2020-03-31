@@ -25,6 +25,7 @@ namespace SamaASP.Services
             _discord.MessageReceived    += MessageReceived;
             _discord.UserJoined         += UserJoined;
             _discord.GuildMemberUpdated += GuildMemberUpdated;
+            _discord.JoinedGuild        += JoinedGuild;
         }
 
         public async Task InitializeAsync( IServiceProvider provider, IConfiguration config )
@@ -33,6 +34,12 @@ namespace SamaASP.Services
             _config = config;
             await _commands.AddModulesAsync( Assembly.GetEntryAssembly(), _provider );
             // Add additional initialization code here...
+        }
+
+        private async Task JoinedGuild(SocketGuild guild )
+        {
+
+            return;
         }
 
         private async Task UserJoined( SocketUser user )
