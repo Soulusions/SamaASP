@@ -60,7 +60,10 @@ namespace SamaASP.Modules
                 .WithFooter("Kesturegarde ?", "https://imgur.com/xtxFbE2.png");
 
             int admins = 0;
-            foreach ( var u in Context.Guild.Users ) if ( u.GuildPermissions.ManageChannels ) admins++;
+            int bots   = 0;
+            foreach ( var u in Context.Guild.Users ) if ( u.GuildPermissions.ManageChannels && !u.IsBot) admins++;
+            foreach ( var u in Context.Guild.Users ) if ( u.IsBot ) bots++;
+
             List<EmbedFieldBuilder> statFields = new List<EmbedFieldBuilder>(
                 new EmbedFieldBuilder[]
                 {
