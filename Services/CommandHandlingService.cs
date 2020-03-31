@@ -38,7 +38,7 @@ namespace SamaASP.Services
 
         private async Task JoinedGuild(SocketGuild guild )
         {
-
+            
             return;
         }
 
