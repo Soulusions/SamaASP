@@ -60,16 +60,12 @@ namespace SamaASP.Modules
                 .WithFooter("Kesturegarde ?", "https://imgur.com/xtxFbE2.png");
 
             int admins = 0;
-            int joueurs = 0;
             foreach ( var u in Context.Guild.Users ) if ( u.GuildPermissions.ManageChannels ) admins++;
-            foreach ( var u in Context.Guild.Users ) if ( u.Roles.FirstOrDefault( x => x.Name == "Joueurs et Joueuses" ).Members.Contains( u ) ) joueurs++;
-
             List<EmbedFieldBuilder> statFields = new List<EmbedFieldBuilder>(
                 new EmbedFieldBuilder[]
                 {
                     new EmbedFieldBuilder().WithName("Utilisateurs").WithValue(Guild.Users.Count),
                     new EmbedFieldBuilder().WithName("Administrateurs").WithValue(admins),
-                    new EmbedFieldBuilder().WithName("Joueurs").WithValue(joueurs),
                     new EmbedFieldBuilder().WithName("Roles").WithValue(Guild.Roles.Count),
                     new EmbedFieldBuilder().WithName("Channels Texte").WithValue(Guild.TextChannels.Count),
                     new EmbedFieldBuilder().WithName("Channel Vocaux").WithValue(Guild.VoiceChannels.Count),
