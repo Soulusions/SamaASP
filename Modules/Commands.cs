@@ -69,6 +69,7 @@ namespace SamaASP.Modules
                 {
                     new EmbedFieldBuilder().WithName("Utilisateurs").WithValue(Guild.Users.Count),
                     new EmbedFieldBuilder().WithName("Administrateurs").WithValue(admins),
+                    new EmbedFieldBuilder().WithName("Bots").WithValue(bots),
                     new EmbedFieldBuilder().WithName("Roles").WithValue(Guild.Roles.Count),
                     new EmbedFieldBuilder().WithName("Channels Texte").WithValue(Guild.TextChannels.Count),
                     new EmbedFieldBuilder().WithName("Channel Vocaux").WithValue(Guild.VoiceChannels.Count),
