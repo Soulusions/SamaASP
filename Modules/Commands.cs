@@ -67,12 +67,12 @@ namespace SamaASP.Modules
             List<EmbedFieldBuilder> statFields = new List<EmbedFieldBuilder>(
                 new EmbedFieldBuilder[]
                 {
-                    new EmbedFieldBuilder().WithName("Utilisateurs").WithValue(Guild.Users.Count).WithIsInline(true),
-                    new EmbedFieldBuilder().WithName("Administrateurs").WithValue(admins).WithIsInline(true),
-                    new EmbedFieldBuilder().WithName("Bots").WithValue(bots).WithIsInline(true),
-                    new EmbedFieldBuilder().WithName("Roles").WithValue(Guild.Roles.Count).WithIsInline(true),
-                    new EmbedFieldBuilder().WithName("Channels Texte").WithValue(Guild.TextChannels.Count).WithIsInline(true),
-                    new EmbedFieldBuilder().WithName("Channel Vocaux").WithValue(Guild.VoiceChannels.Count).WithIsInline(true),
+                    new EmbedFieldBuilder().WithName("Utilisateurs").WithValue(Guild.Users.Count),
+                    new EmbedFieldBuilder().WithName("Administrateurs").WithValue(admins),
+                    new EmbedFieldBuilder().WithName("Bots").WithValue(bots),
+                    new EmbedFieldBuilder().WithName("Roles").WithValue(Guild.Roles.Count),
+                    new EmbedFieldBuilder().WithName("Channels Texte").WithValue(Guild.TextChannels.Count),
+                    new EmbedFieldBuilder().WithName("Channel Vocaux").WithValue(Guild.VoiceChannels.Count),
                     new EmbedFieldBuilder().WithName("Crée le").WithValue(Guild.CreatedAt)
                 });
 
