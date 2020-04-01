@@ -16,7 +16,7 @@ namespace SamaASP.Modules
         [Command( "info" )]
         public Task Info()
             => ReplyAsync(
-                $"{Context.Client.CurrentUser.Username}.ASP.NET v1.0.1\n" );
+                $"{Context.Client.CurrentUser.Username}.ASP.NET core\n" );
 
         [Command( "whois" )]
         public async Task Whois( SocketUser user = null )
@@ -131,6 +131,26 @@ namespace SamaASP.Modules
             else
             {
                 await Context.Channel.SendMessageAsync( $"Vous êtes déjà vérifiés {Context.Message.Author.Mention} !" );
+            }
+        }
+    }
+
+    public class UtilsModule : ModuleBase<SocketCommandContext>
+    {
+        [Command("forceupdate")]
+        public async Task ForceUpdate()
+        {
+            SocketRole newbie = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Newbie");
+            SocketRole guest = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Invités");
+
+            foreach ( SocketGuildUser u in Context.Guild.Users )
+            {
+                Tools.UpdatePlayerRole( u );
+
+                if ((!u.Roles.Contains(newbie) || !u.Roles.Contains(guest)) && !u.GuildPermissions.ManageChannels )
+                {
+                    u.AddRoleAsync( guest );
+                }
             }
         }
     }

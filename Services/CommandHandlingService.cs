@@ -47,24 +47,7 @@ namespace SamaASP.Services
 
         private async Task GuildMemberUpdated( SocketGuildUser before, SocketGuildUser after )
         {
-            bool inRoleplay = false;
-            foreach ( var r in after.Roles )
-            {
-                if ( r.Name.StartsWith( "RP " ) )
-                {
-                    inRoleplay = true;
-                    break;
-                }
-            }
-
-            if ( inRoleplay )
-            {
-                await after.AddRoleAsync( after.Guild.Roles.FirstOrDefault( x => x.Name == "Joueurs et Joueuses" ) );
-            }
-            else
-            {
-                await after.RemoveRoleAsync( after.Guild.Roles.FirstOrDefault( x => x.Name == "Joueurs et Joueuses" ) );
-            }
+            Tools.UpdatePlayerRole( after );
         }
 
         private async Task MessageReceived( SocketMessage rawMessage )
