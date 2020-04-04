@@ -15,8 +15,7 @@ namespace SamaASP.Modules
     {
         [Command( "info" )]
         public Task Info()
-            => ReplyAsync(
-                $"{Context.Client.CurrentUser.Username}.ASP.NET core\n" );
+            => ReplyAsync( $"{Context.Client.CurrentUser.Username}.ASP.NET core\n" );
 
         [Command( "whois" )]
         public async Task Whois( SocketUser user = null )
@@ -42,6 +41,46 @@ namespace SamaASP.Modules
             {
                 await ReplyAsync( $"{user.GetAvatarUrl()}" );
             }
+        }
+    }
+
+    public class UserInfoModule : ModuleBase<SocketCommandContext>
+    {
+        [Command( "userinfo" )]
+        public async Task UserInfo( SocketUser user = null )
+        {
+            SocketRole guest = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Invités");
+            SocketRole player = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Joueurs et Joueuses");
+
+            if ( user == null ) user = Context.User;
+
+            var guildUser = user as IGuildUser;
+
+            var statEmbed = new EmbedBuilder().WithTitle("Rapport Statistique de Nibba-Sama")
+                .WithDescription($"Statistiques de **{user.Username}**, membre depuis *{guildUser.JoinedAt}*")
+                .WithAuthor("Nibba-Sama", "https://imgur.com/xtxFbE2.png")
+                .WithTimestamp(DateTime.Now)
+                .WithColor(new Color(255, 145, 255))
+                .WithFooter("Kesturegarde ?", "https://imgur.com/xtxFbE2.png")
+                .WithImageUrl($"{user.GetAvatarUrl()}");
+
+            var status = "";
+            if ( guildUser.RoleIds.Contains( guest.Id ) )    status = "Invité";
+            if ( guildUser.RoleIds.Contains( player.Id ) )   status = "Joueur";
+            if ( guildUser.GuildPermissions.ManageChannels ) status = "Administrateur";
+
+            List<EmbedFieldBuilder> statFields = new List<EmbedFieldBuilder>(
+                new EmbedFieldBuilder[]
+                {
+                    new EmbedFieldBuilder().WithName("Id").WithValue(user.Id).WithIsInline(true),
+                    new EmbedFieldBuilder().WithName("Tag").WithValue($"{user.Username}#{user.Discriminator}").WithIsInline(true),
+                    new EmbedFieldBuilder().WithName("Roles").WithValue(guildUser.RoleIds.Count),
+                    new EmbedFieldBuilder().WithName("Status").WithValue(status)
+                });
+
+            statEmbed.WithFields( statFields );
+
+            await ReplyAsync( embed: statEmbed.Build() );
         }
     }
 
@@ -120,7 +159,7 @@ namespace SamaASP.Modules
         public async Task Verify()
         {
             SocketRole newbie = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Newbie");
-            SocketRole guest = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Invités");
+            SocketRole guest  = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Invités");
 
             if ( ( Context.Message.Author as IGuildUser ).RoleIds.Contains( newbie.Id ) )
             {
@@ -137,19 +176,19 @@ namespace SamaASP.Modules
 
     public class UtilsModule : ModuleBase<SocketCommandContext>
     {
-        [Command("forceupdate")]
+        [Command( "forceupdate" )]
         public async Task ForceUpdate()
         {
             SocketRole newbie = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Newbie");
-            SocketRole guest = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Invités");
+            SocketRole guest  = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Invités");
 
             foreach ( SocketGuildUser u in Context.Guild.Users )
             {
                 Tools.UpdatePlayerRole( u );
 
-                if ((!u.Roles.Contains(newbie) || !u.Roles.Contains(guest)) && !u.GuildPermissions.ManageChannels )
+                if ( (!u.Roles.Contains( newbie ) || !u.Roles.Contains( guest ) ) && !u.GuildPermissions.ManageChannels )
                 {
-                    u.AddRoleAsync( guest );
+                    await u.AddRoleAsync( guest );
                 }
             }
         }

@@ -36,7 +36,7 @@ namespace SamaASP.Services
             // Add additional initialization code here...
         }
 
-        private async Task JoinedGuild(SocketGuild guild )
+        private async Task JoinedGuild( SocketGuild guild )
         {
             
             return;
