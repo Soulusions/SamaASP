@@ -21,7 +21,6 @@ namespace SamaASP
     public class Startup
     {
         private DiscordSocketClient _client;
-        private IConfiguration _config;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -51,13 +50,12 @@ namespace SamaASP
         public async Task MainAsync()
         {
             _client = new DiscordSocketClient();
-            _config = BuildConfig();
 
             var services = ConfigureServices();
             services.GetRequiredService<LogService>();
-            await services.GetRequiredService<CommandHandlingService>().InitializeAsync( services, _config );
+            await services.GetRequiredService<CommandHandlingService>().InitializeAsync( services );
 
-            await _client.LoginAsync( TokenType.Bot, _config[ "token" ] );
+            await _client.LoginAsync( TokenType.Bot, "NjkzMTY2MzgxNzY3NzIxMDQy.Xoy_qQ.xRsdENWkYiXfpK20y3a0nj5mLfc" );
             await _client.StartAsync();
 
             await Task.Delay( -1 );
@@ -73,18 +71,8 @@ namespace SamaASP
                 // Logging
                 .AddLogging()
                 .AddSingleton<LogService>()
-                // Extra
-                .AddSingleton( _config )
                 // Add additional services here...
                 .BuildServiceProvider();
-        }
-
-        private IConfiguration BuildConfig()
-        {
-            return new ConfigurationBuilder()
-                .SetBasePath( Directory.GetCurrentDirectory() )
-                .AddJsonFile( "./config.json" )
-                .Build();
         }
     }
 }
