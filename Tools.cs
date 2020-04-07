@@ -11,10 +11,11 @@ namespace SamaASP
     {
         public static async void UpdatePlayerRole( SocketGuildUser user )
         {
-            if ( user.GuildPermissions.ManageChannels || user.GuildPermissions.Administrator || user.Hierarchy > user.Guild.CurrentUser.Hierarchy ) return;
+            if ( user.Hierarchy > user.Guild.CurrentUser.Hierarchy ) return;
 
-            Console.WriteLine( $"Updating: {user.Username}\n" );
             SocketRole player  = user.Guild.Roles.FirstOrDefault(x => x.Name == "Joueurs et Joueuses");
+            SocketRole notPlayer = user.Guild.Roles.First(x => x.Name.StartsWith("Non "));
+
             bool inRoleplay = false;
             foreach ( var r in user.Roles )
             {
@@ -28,10 +29,18 @@ namespace SamaASP
             if ( inRoleplay && !user.Roles.Contains( player ) )
             {
                 await user.AddRoleAsync( player );
+                if ( user.Roles.Contains( notPlayer ) )
+                {
+                    await user.RemoveRoleAsync( notPlayer );
+                }
             }
-            else if ( !inRoleplay && user.Roles.Contains( player ) )
+            else if ( !inRoleplay )
             {
-                await user.RemoveRoleAsync( player );
+                if ( user.Roles.Contains( player ) )
+                {
+                    await user.RemoveRoleAsync( player );
+                }
+                await user.AddRoleAsync( notPlayer );
             }
         }
     }
