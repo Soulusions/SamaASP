@@ -46,7 +46,8 @@ namespace SamaASP.Services
 
         private async Task GuildMemberUpdated( SocketGuildUser before, SocketGuildUser after )
         {
-            Tools.UpdatePlayerRole( after );
+            SocketRole newbie = after.Guild.Roles.FirstOrDefault(x => x.Name == "Newbie");
+            if ( !after.Roles.Contains( newbie ) ) Tools.UpdatePlayerRole( after );
         }
 
         private async Task MessageReceived( SocketMessage rawMessage )

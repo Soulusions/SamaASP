@@ -21,10 +21,10 @@ namespace SamaASP.Services
             _commands = commands;
 
             _loggerFactory = ConfigureLogging( loggerFactory );
-            //_discordLogger = _loggerFactory.CreateLogger( "discord" );
+            _discordLogger = _loggerFactory.CreateLogger( "discord" );
             _commandsLogger = _loggerFactory.CreateLogger( "commands" );
 
-            //_discord.Log += LogDiscord;
+            _discord.Log += LogDiscord;
             _commands.Log += LogCommand;
         }
 
@@ -47,12 +47,11 @@ namespace SamaASP.Services
 
         private Task LogCommand( LogMessage message )
         {
-
             // Return an error message for async commands
             if ( message.Exception is CommandException command )
             {
                 // Don't risk blocking the logging task by awaiting a message send; ratelimits!?
-                var _ = command.Context.Channel.SendMessageAsync($"Error: {command.Message}");
+                // var _ = command.Context.Channel.SendMessageAsync($"Error: {command.Message}");
             }
 
             _commandsLogger.Log(
