@@ -1,11 +1,11 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.Extensions.Configuration;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace SamaASP.Services
 {
@@ -18,14 +18,14 @@ namespace SamaASP.Services
 
         public CommandHandlingService( IServiceProvider provider, DiscordSocketClient discord, CommandService commands )
         {
-            _discord  = discord;
+            _discord = discord;
             _commands = commands;
             _provider = provider;
 
-            _discord.MessageReceived    += MessageReceived;
-            _discord.UserJoined         += UserJoined;
+            _discord.MessageReceived += MessageReceived;
+            _discord.UserJoined += UserJoined;
             _discord.GuildMemberUpdated += GuildMemberUpdated;
-            _discord.JoinedGuild        += JoinedGuild;
+            _discord.JoinedGuild += JoinedGuild;
         }
 
         public async Task InitializeAsync( IServiceProvider provider, IConfiguration config )
@@ -38,7 +38,6 @@ namespace SamaASP.Services
 
         private async Task JoinedGuild( SocketGuild guild )
         {
-            
             return;
         }
 
