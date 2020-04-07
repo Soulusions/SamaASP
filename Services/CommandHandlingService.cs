@@ -14,7 +14,6 @@ namespace SamaASP.Services
         private readonly DiscordSocketClient _discord;
         private readonly CommandService _commands;
         private IServiceProvider _provider;
-        private IConfiguration _config;
 
         public CommandHandlingService( IServiceProvider provider, DiscordSocketClient discord, CommandService commands )
         {
@@ -28,10 +27,9 @@ namespace SamaASP.Services
             _discord.JoinedGuild += JoinedGuild;
         }
 
-        public async Task InitializeAsync( IServiceProvider provider, IConfiguration config )
+        public async Task InitializeAsync( IServiceProvider provider )
         {
             _provider = provider;
-            _config = config;
             await _commands.AddModulesAsync( Assembly.GetEntryAssembly(), _provider );
             // Add additional initialization code here...
         }
