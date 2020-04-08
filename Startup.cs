@@ -55,7 +55,7 @@ namespace SamaASP
             services.GetRequiredService<LogService>();
             await services.GetRequiredService<CommandHandlingService>().InitializeAsync( services );
 
-            await _client.LoginAsync( TokenType.Bot, "NjkzMTY2MzgxNzY3NzIxMDQy.Xoy_qQ.xRsdENWkYiXfpK20y3a0nj5mLfc" );
+            await _client.LoginAsync( TokenType.Bot, "token" );
             await _client.StartAsync();
 
             await Task.Delay( -1 );
